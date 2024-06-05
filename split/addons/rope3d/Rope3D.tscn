@@ -1,0 +1,28 @@
+[gd_scene load_steps=9 format=3 uid="uid://cxcrxm8x8terr"]
+
+[ext_resource type="Script" path="res://addons/rope3d/rope3d.gd" id="1_65maw"]
+[ext_resource type="Script" path="res://addons/rope3d/rope_mesh.gd" id="2_fse5m"]
+[ext_resource type="Texture2D" uid="uid://64m8gqdfdny3" path="res://RopeGenerator/Rope001_1K-JPG/Rope001_1K-JPG_Color.jpg" id="2_ospxo"]
+[ext_resource type="Texture2D" uid="uid://btrx4132bbylq" path="res://RopeGenerator/Rope001_1K-JPG/Rope001_1K-JPG_NormalGL.jpg" id="3_0don7"]
+[ext_resource type="Texture2D" uid="uid://dm6jresotpp5v" path="res://RopeGenerator/Rope001_1K-JPG/Rope001_1K-JPG_Metalness.jpg" id="3_ny8sb"]
+[ext_resource type="Texture2D" uid="uid://d2rkjiq0155qe" path="res://RopeGenerator/Rope001_1K-JPG/Rope001_1K-JPG_Roughness.jpg" id="5_sycc3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e6exq"]
+albedo_texture = ExtResource("2_ospxo")
+metallic = 1.0
+metallic_texture = ExtResource("3_ny8sb")
+roughness_texture = ExtResource("5_sycc3")
+normal_enabled = true
+normal_texture = ExtResource("3_0don7")
+uv2_triplanar = true
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_d1jh7"]
+
+[node name="Rope3D" type="Node3D"]
+script = ExtResource("1_65maw")
+radius = 0.2
+
+[node name="RopeMesh" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_e6exq")
+mesh = SubResource("ImmediateMesh_d1jh7")
+script = ExtResource("2_fse5m")

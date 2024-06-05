@@ -1,0 +1,36 @@
+[gd_scene load_steps=8 format=3 uid="uid://dcmq858opd7a7"]
+
+[ext_resource type="Texture2D" uid="uid://64m8gqdfdny3" path="res://RopeGenerator/Rope001_1K-JPG/Rope001_1K-JPG_Color.jpg" id="1_dls5c"]
+[ext_resource type="Script" path="res://RopeGenerator/RopeGenerator.gd" id="1_lf23v"]
+[ext_resource type="Texture2D" uid="uid://dm6jresotpp5v" path="res://RopeGenerator/Rope001_1K-JPG/Rope001_1K-JPG_Metalness.jpg" id="2_q5eit"]
+[ext_resource type="Texture2D" uid="uid://csxsqw3tcqpqq" path="res://RopeGenerator/Rope001_1K-JPG/Rope001_1K-JPG_NormalDX.jpg" id="3_aeg84"]
+[ext_resource type="Texture2D" uid="uid://d2rkjiq0155qe" path="res://RopeGenerator/Rope001_1K-JPG/Rope001_1K-JPG_Roughness.jpg" id="4_whnu6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xlelc"]
+albedo_texture = ExtResource("1_dls5c")
+metallic = 1.0
+metallic_texture = ExtResource("2_q5eit")
+roughness_texture = ExtResource("4_whnu6")
+normal_enabled = true
+normal_texture = ExtResource("3_aeg84")
+uv2_triplanar = true
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_1uqjf"]
+
+[node name="RopeGenerator" type="MeshInstance3D" node_paths=PackedStringArray("temp_player", "temp_hook")]
+material_override = SubResource("StandardMaterial3D_xlelc")
+mesh = SubResource("ImmediateMesh_1uqjf")
+script = ExtResource("1_lf23v")
+resolution = 32
+point_count = 8
+rope_width = 0.2
+uv_scale = 1.0
+isDrawing = true
+firstTime = false
+temp_player = NodePath("tempPlayer")
+temp_hook = NodePath("tempHook")
+
+[node name="tempPlayer" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 76.5709, 331.113)
+
+[node name="tempHook" type="Node3D" parent="."]

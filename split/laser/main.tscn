@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://duqq1p8lhmk7d"]
+
+[ext_resource type="Script" path="res://laser/main.gd" id="1_6vh15"]
+
+[sub_resource type="Environment" id="Environment_s016x"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_6vh15")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_s016x")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41024, 4.96782)

@@ -1,0 +1,212 @@
+[gd_scene load_steps=17 format=3 uid="uid://bsdr7pfcj71hb"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_naqok"]
+[ext_resource type="Texture2D" uid="uid://c8arnlq67qi7" path="res://assets/textures/grids/Dark/texture_05.png" id="2_g2a8o"]
+[ext_resource type="Texture2D" uid="uid://b58xv1joypxo5" path="res://assets/textures/grids/Orange/texture_09.png" id="3_ovx1m"]
+[ext_resource type="PackedScene" uid="uid://cdgtjp2l24e8u" path="res://enemy.tscn" id="7_bbgaw"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xnie6"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_e6ymi"]
+sky_material = SubResource("ProceduralSkyMaterial_xnie6")
+
+[sub_resource type="Environment" id="Environment_ws4xu"]
+background_mode = 2
+sky = SubResource("Sky_e6ymi")
+tonemap_mode = 2
+sdfgi_enabled = true
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(1, 1, 1, 1)
+fog_density = 0.001
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bxf8a"]
+albedo_texture = ExtResource("2_g2a8o")
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4ggqh"]
+albedo_texture = ExtResource("3_ovx1m")
+uv1_triplanar = true
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5qrp5"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_r7amm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_os0xh"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(0, 0.368627, 1, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jj15d"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_h2mwx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8i7hc"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_38wub"]
+albedo_color = Color(1, 0, 0, 1)
+
+[node name="world" type="Node3D"]
+script = ExtResource("1_naqok")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ws4xu")
+
+[node name="enemy" parent="." instance=ExtResource("7_bbgaw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.84837, 1.53762, -4.80381)
+
+[node name="floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.277037, 0)
+material_override = SubResource("StandardMaterial3D_bxf8a")
+use_collision = true
+size = Vector3(1000, 0.8, 1000)
+
+[node name="box" type="CSGBox3D" parent="."]
+transform = Transform3D(-0.780387, 0, 0.625297, 0, 1, 0, -0.625297, 0, -0.780387, -3.09828, 1.22163, -2.9669)
+material_override = SubResource("StandardMaterial3D_4ggqh")
+use_collision = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 382.0
+offset_top = 225.0
+offset_right = -382.0
+offset_bottom = -225.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu	"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HostButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "HOST"
+
+[node name="JoinButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "JOIN"
+
+[node name="AddressEntry" type="LineEdit" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter Address To Join"
+alignment = 1
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")
+
+[node name="BlueCapsule" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BlueCapsule"]
+shape = SubResource("CapsuleShape3D_5qrp5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BlueCapsule"]
+mesh = SubResource("CapsuleMesh_r7amm")
+surface_material_override/0 = SubResource("StandardMaterial3D_os0xh")
+
+[node name="Marker3D" type="Marker3D" parent="BlueCapsule"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.25, 0)
+
+[node name="BlueCapsule2" type="StaticBody3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 20, 2, 2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BlueCapsule2"]
+shape = SubResource("CapsuleShape3D_5qrp5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BlueCapsule2"]
+mesh = SubResource("CapsuleMesh_r7amm")
+surface_material_override/0 = SubResource("StandardMaterial3D_os0xh")
+
+[node name="Marker3D" type="Marker3D" parent="BlueCapsule2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.25, 0)
+
+[node name="box2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1578, 2, 2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="box2"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, -0.0178642, 0)
+shape = SubResource("CapsuleShape3D_jj15d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="box2"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_h2mwx")
+surface_material_override/0 = SubResource("StandardMaterial3D_8i7hc")
+
+[node name="Marker3D" type="Marker3D" parent="box2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.25, 0)
+
+[node name="hook comp" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -17.893, 2.08201, 1.91835)
+
+[node name="box3" type="StaticBody3D" parent="." groups=["enemy"]]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4, 2, 2)
+constant_linear_velocity = Vector3(0, 180, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="box3"]
+shape = SubResource("CapsuleShape3D_jj15d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="box3"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_h2mwx")
+surface_material_override/0 = SubResource("StandardMaterial3D_38wub")
+
+[node name="Marker3D" type="Marker3D" parent="box3"]
+transform = Transform3D(1, 0, -2.98023e-08, -1.05879e-21, 1, -3.55271e-14, 2.98023e-08, 3.55271e-14, 1, 0.5, 0.25, 0)
+
+[node name="box4" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5, 2, 0)
+constant_linear_velocity = Vector3(0, 180, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="box4"]
+shape = SubResource("CapsuleShape3D_jj15d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="box4"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_h2mwx")
+surface_material_override/0 = SubResource("StandardMaterial3D_38wub")
+
+[node name="Marker3D" type="Marker3D" parent="box4"]
+transform = Transform3D(1, 0, -2.98023e-08, -1.05879e-21, 1, -3.55271e-14, 2.98023e-08, 3.55271e-14, 1, 0.5, 0.25, 0)
+
+[node name="box5" type="StaticBody3D" parent="."]
+transform = Transform3D(0.34202, 0, -0.939693, 0, 1, 0, 0.939693, 0, 0.34202, 5, 2, -6.53727)
+constant_linear_velocity = Vector3(0, 180, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="box5"]
+shape = SubResource("CapsuleShape3D_jj15d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="box5"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_h2mwx")
+surface_material_override/0 = SubResource("StandardMaterial3D_38wub")
+
+[node name="Marker3D" type="Marker3D" parent="box5"]
+transform = Transform3D(1, 0, -2.98023e-08, -1.05879e-21, 1, -3.55271e-14, 2.98023e-08, 3.55271e-14, 1, 0.5, 0.25, 0)
+
+[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]

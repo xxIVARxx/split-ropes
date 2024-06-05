@@ -1,0 +1,94 @@
+[gd_scene load_steps=6 format=3 uid="uid://34gdeyjtlky1"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_xl3g4"]
+[ext_resource type="PackedScene" uid="uid://bu0mahdnfwt4b" path="res://assets/models/RedTeam_TwoHandSwordsMen_Unit.fbx" id="2_upowk"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wrfwb"]
+height = 3.85038
+radius = 0.391177
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_wm4ds"]
+margin = 0.4
+points = PackedVector3Array(0.00236285, -0.00231211, 0.000760067, -0.00347685, -0.00353971, -0.000776846, -0.00347685, -0.00353971, 0.000760067, -9.46144e-05, -0.0196768, 0.000145061, 0.00343926, -0.00353971, -0.000776846, -9.46144e-05, 0.00322114, -0.000622944, 0.000211384, 0.00322114, 0.000606165, 0.00343926, -0.00353971, 0.000760067, -9.46144e-05, -0.017524, -0.000315591, -9.46144e-05, -0.0156804, 0.000452564, -0.00055632, 0.00322114, -0.000315591, 0.000211384, -0.0193654, -8.38924e-06, 0.000518737, 0.00322114, -0.000315591, -0.00347685, -0.00292591, 0.000760067, 0.00343926, -0.00292591, 0.000760067, 0.00343926, -0.00292591, -0.000776846, -0.00347685, -0.00292591, -0.000776846, -9.46144e-05, -0.0195211, -0.00016184, -0.000402644, 0.00322114, 0.000452564, -9.46144e-05, -0.0135275, -0.000469343, 0.000518737, 0.00322114, 0.000298813, -0.000709319, -0.00185176, -0.000776846, -0.000248291, -0.0190608, 0.000145061, -0.000709319, -0.00185176, 0.000760067, 0.000211384, 0.00322114, -0.000622944, 0.000211384, -0.0173706, 0.000298813, -9.46144e-05, 0.00322114, 0.000606165, 0.000826089, -0.00185176, -0.000776846, 0.000826089, -0.00185176, 0.000760067, -0.000248291, -0.0189073, -0.00016184, -0.00270779, -0.00246556, -0.000776846, -0.00270779, -0.00246556, 0.000760067)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mrsj4"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("camera_mount/Camera3D:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="Player" type="CharacterBody3D" groups=["friend"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.516272, 0)
+script = ExtResource("1_xl3g4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.420978, 0, 1.95519, 0, 0.516135, 0, -1.95519, 0, 0.420978, -0.178635, 1.02907, -0.178036)
+shape = SubResource("CylinderShape3D_wrfwb")
+
+[node name="visuals" type="Node3D" parent="."]
+
+[node name="Root Scene" parent="visuals" instance=ExtResource("2_upowk")]
+transform = Transform3D(-0.983685, 0, 0.179901, 0, 1, 0, -0.179901, 0, -0.983685, -0.199022, 0.0212084, -0.0940003)
+
+[node name="Skeleton3D" parent="visuals/Root Scene/RootNode/RedTeam_SwordsMen_Armature" index="0"]
+bones/1/rotation = Quaternion(-0.125645, 1.18265e-07, -1.49781e-08, 0.992075)
+bones/2/rotation = Quaternion(0, 0, 0, 1)
+bones/4/rotation = Quaternion(-0.139412, 0.482531, 0.847004, 0.174106)
+bones/4/scale = Vector3(1, 1, 1)
+bones/5/rotation = Quaternion(0.171454, 1.37836e-07, 1.36904e-07, 0.985192)
+bones/6/rotation = Quaternion(0.318186, 0.631472, 0.318186, 0.631473)
+bones/6/scale = Vector3(1, 1, 1)
+bones/8/rotation = Quaternion(-0.0889018, 0.0413219, -0.189643, 0.976947)
+bones/8/scale = Vector3(1, 1, 1)
+bones/10/position = Vector3(-0.00315907, 0.00435764, -6.40284e-10)
+bones/10/rotation = Quaternion(0.129553, 0.613725, 0.771978, -0.102995)
+bones/10/scale = Vector3(1, 1, 1)
+bones/11/rotation = Quaternion(0.171454, -1.19209e-07, -1.30385e-07, 0.985192)
+bones/12/rotation = Quaternion(0.318186, -0.631472, -0.318186, 0.631473)
+bones/12/scale = Vector3(1, 1, 1)
+bones/14/rotation = Quaternion(-0.0537198, 0.0233104, 0.397375, 0.915786)
+bones/14/scale = Vector3(1, 1, 1)
+bones/16/position = Vector3(-2.91038e-11, 0.00499105, 0.000521)
+bones/16/rotation = Quaternion(-0.747301, 1.3411e-07, 5.28991e-07, 0.664486)
+bones/16/scale = Vector3(1, 1, 1)
+bones/18/rotation = Quaternion(0.707107, -1.19209e-07, -0.707107, -8.9407e-08)
+bones/19/rotation = Quaternion(-9.80632e-09, 6.31914e-08, 0.707107, 0.707107)
+bones/21/rotation = Quaternion(0.707107, 8.9407e-08, 0.707107, -5.96047e-08)
+bones/21/scale = Vector3(1, 1, 1)
+bones/22/rotation = Quaternion(-9.80631e-09, -6.31914e-08, -0.707107, 0.707107)
+bones/22/scale = Vector3(1, 1, 1)
+bones/24/position = Vector3(0.00295079, 0.00353111, 0.00225516)
+bones/24/rotation = Quaternion(0.989069, -9.90214e-08, -6.64204e-07, 0.147453)
+bones/26/position = Vector3(-0.00295079, 0.00353111, 0.00225516)
+bones/26/rotation = Quaternion(0.989069, 9.90214e-08, 6.64204e-07, 0.147453)
+
+[node name="HitBox" type="Area3D" parent="visuals/Root Scene/RootNode/RedTeam_SwordsMen_Armature/Skeleton3D/TwoHand_Sword_Iron" index="0"]
+transform = Transform3D(1.1, 2.98023e-08, 5.32907e-15, -2.98023e-08, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
+disable_mode = 1
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="visuals/Root Scene/RootNode/RedTeam_SwordsMen_Armature/Skeleton3D/TwoHand_Sword_Iron/HitBox"]
+transform = Transform3D(0.952967, 0.102126, -0.285346, 0.123791, 0.728228, 0.674064, 0.276638, -0.677686, 0.681337, 0.000466087, -0.00443203, -0.0015025)
+shape = SubResource("ConvexPolygonShape3D_wm4ds")
+
+[node name="camera_mount" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36663, 0)
+
+[node name="Camera3D" type="Camera3D" parent="camera_mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0733765, 0.307358, 2.50781)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_mrsj4")
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[connection signal="area_entered" from="visuals/Root Scene/RootNode/RedTeam_SwordsMen_Armature/Skeleton3D/TwoHand_Sword_Iron/HitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="body_entered" from="visuals/Root Scene/RootNode/RedTeam_SwordsMen_Armature/Skeleton3D/TwoHand_Sword_Iron/HitBox" to="." method="_on_hit_box_body_entered"]
+
+[editable path="visuals/Root Scene"]

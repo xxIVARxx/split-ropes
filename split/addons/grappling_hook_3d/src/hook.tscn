@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://dlqm10204rcaq"]
+
+[ext_resource type="Script" path="res://addons/grappling_hook_3d/src/hook_model.gd" id="1_axmsb"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2uiuu"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 1.0
+radial_segments = 4
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8746b"]
+albedo_color = Color(0.568627, 0.568627, 0.568627, 1)
+metallic = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_35t1j"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_usc5b"]
+size = Vector3(0.1, 0.1, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0nx8y"]
+albedo_color = Color(0.376471, 0.376471, 0.376471, 1)
+metallic = 1.0
+
+[node name="Hook" type="Node3D"]
+transform = Transform3D(0.999988, -0.002407, 0.00417807, 0.00243248, 0.999978, -0.0061058, -0.00416329, 0.00611588, 0.999973, -0.000938028, 0.00145726, -0.00651145)
+script = ExtResource("1_axmsb")
+
+[node name="Rope" type="Node3D" parent="."]
+
+[node name="Rope Mesh" type="MeshInstance3D" parent="Rope"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.5)
+mesh = SubResource("CylinderMesh_2uiuu")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_8746b")
+
+[node name="Area3D" type="Area3D" parent="Rope/Rope Mesh"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rope/Rope Mesh/Area3D"]
+transform = Transform3D(0.2, 0, 0, 0, 0.499451, -8.88178e-16, 0, 1.77636e-15, 0.2, 0, 0, 0)
+shape = SubResource("CylinderShape3D_35t1j")
+
+[node name="Hook End" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="Model" type="MeshInstance3D" parent="Hook End"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125)
+mesh = SubResource("BoxMesh_usc5b")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_0nx8y")
+
+[node name="Rope Visual Target" type="Marker3D" parent="Hook End"]
+transform = Transform3D(1, -2.45564e-10, 0, -1.0732e-10, 1, 0, 0, -4.65661e-10, 1, -2.98023e-08, 4.65661e-10, 0.25)
+
+[connection signal="body_entered" from="Rope/Rope Mesh/Area3D" to="." method="_on_area_3d_body_entered"]

@@ -1,0 +1,203 @@
+
+# PICO-1K Jam
+
+My goal for this jam game was to make an entire (3D!) game in 1024 characters of source code,
+as reported inside the [PICO-8](http://pico8.com) editor. The final code hits exactly that
+size, including the comment at the top and the newlines.
+
+It includes flying, enemies, shooting, guns overheating, depleting fuel, a score tracker,
+explosions, and a game over state. The player's jet is based on sprites from the original
+_Afterburner_ game, redrawn to fit PICO-8 palette and sprite limitations. The 3D ground was
+from an earlier Tweet jam entry that I made.
+
+The complete [source code](topburn.p8) is:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--top★burn
+a=48n=32k=64_={}camera(-k,-k)c=16x=0y=0t=0o=0g=0q,b,r,s,h=sqrt,btn,rnd,spr,sspr::a::l=t%8/4map(0,0,-k,-k,c,c)for j=3,k do
+z=j/4h(q(q(z))*c-l,1,k+k,1,-j*n,j,k*4*z,1)end l=l&lt;1o=max(o-1,0)f=b(4)and o&lt;n if f then m(r(3))o+=2 if(o&gt;n)o=98
+end i=l and o&gt;n and s(124,-k,-40,4,1)or h(0,56,min(o,n),6,-k,-a),l and t&gt;650or h(a,n,n-t/n,8,n,-a) i=b(1)p=24m=sfx
+if(i and x&lt;c)x+=2 p=c
+if(b(0)and-k&lt;x)x-=2 p=c
+if(b(2)and y&lt;n)y+=1 p=k
+if(b(3)and-n&lt;y)y-=1 p=74
+s(86,x+8,a,4,2) for e in all(_)do e.x+=e.d e.z+=.1 j=e.d&lt;0w=88z=4/e.z
+if(e.l==0or e.z&gt;k)del(_,e) if(e.l)e.l-=1 j=r(2)&gt;1goto e
+h(56,k,c,c,e.x*z+24*z,a*z,c*z,c*z,j)w=k if(f and max(abs(u/z-e.x-21),abs(v/z-e.y-8))&lt;8)e.l=8m(3)g+=.75
+::e::h(0,w,56,24,e.x*z,e.y*z,56*z,24*z,j)end if(r(98)&lt;1)d=sgn(r(2)-1)add(_,{x=r(n)-d*k-c,d=d,y=r(k)-a,z=1})
+z=.7u=x*z+13v=y*z-8s(2,u,v) if(f and l)s(c,u*.9,v*z)s(17,u,y*z-5)z+=.1 s(38,x*z+10,y*z-2,2,1)z+=.1 s(46,x*z+14,y*z+1,2,1)
+s(p,x,y,6,3,i)s(240,-30,-41,g,1)flip()t+=1
+if(t&lt;999)goto a
+::g::s(137+t%2*k,t%192-140,-n,7,1)flip()t+=1 goto g
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Code with Comments
+
+The [commented version](topburn-comments.p8) makes it a little easier to see what is going
+on. The code is actually reasonably organized and many of the variable names (although a single
+letter) are at least mneumonics:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- top*burn
+-- @casualeffects
+
+-- a pico-8 game in 1024
+-- characters (this is the
+-- version with comments, which
+-- is larger!)
+--
+-- common constants:
+-- k   = 64
+-- a   = 48
+-- n   = 32
+-- c   = 16
+--
+-- common functions:
+-- q   = sqrt
+-- b   = btn
+-- s   = spr
+-- h   = sspr
+-- r   = rnd
+-- m   = sfx
+--
+-- t   = timer (frame count)/fuel
+-- x,y = plane position
+-- z   = scale factor
+-- _   = enemy array
+-- p   = plane sprite index
+-- i   = right button (during plane code)
+-- j   = flip sprite left-right
+-- o   = gun overheat status
+-- f   = true if firing
+-- u,v = reticle coords
+-- e   = enemy
+-- w   = enemy sprite y
+-- l   = modulo counter (for background) and blink (for hud and bullets)
+-- g   = kills
+-- d   = temp var
+--
+-- enemies:
+--  x,y,z = coords
+--  l     = life
+
+--background
+a=48n=32k=64_={}camera(-k,-k)c=16x=0y=0t=0o=0g=0q,b,r,s,h=sqrt,btn,rnd,spr,sspr::a::l=t%8/4map(0,0,-k,-k,c,c)for j=3,k do
+z=j/4h(q(q(z))*c-l,1,k+k,1,-j*n,j,k*4*z,1)end
+
+-- hud
+l=l&lt;1o=max(o-1,0)f=b(4)and o&lt;n
+if f then m(r(3))o+=2
+if(o&gt;n)o=98
+end
+-- blinking gauges
+p=l and o&gt;n and s(124,-k,-40,4,1)or h(0,56,min(o,n),6,-k,-a),l and t&gt;650or h(a,n,n-t/n,8,n,-a)
+
+-- controls
+i=b(1)p=24m=sfx
+if(i and x&lt;c)x+=2 p=c
+if(b(0)and-k&lt;x)x-=2 p=c
+if(b(2)and y&lt;n)y+=1 p=k
+if(b(3)and-n&lt;y)y-=1 p=74
+
+-- plane shadow
+s(86,x+8,a,4,2)
+
+-- enemy plane logic
+for e in all(_)do e.x+=e.d e.z+=.1 j=e.d&lt;0w=88z=4/e.z
+if(e.l==0or e.z&gt;k)del(_,e)
+if(e.l)e.l-=1 j=r(2)&gt;1goto e
+
+-- hit detection and explosion animation
+h(56,k,c,c,e.x*z+24*z,a*z,c*z,c*z,j)w=k
+if(f and max(abs(u/z-e.x-21),abs(v/z-e.y-8))&lt;8)e.l=8m(3)g+=.75
+::e::h(0,w,56,24,e.x*z,e.y*z,56*z,24*z,j)end
+
+-- new enemy spawn
+if(r(98)&lt;1)d=sgn(r(2)-1)add(_,{x=r(n)-d*k-c,d=d,y=r(k)-a,z=1})
+
+-- player reticle + bullets
+z=.7u=x*z+13v=y*z-8s(2,u,v)
+if(f and l)s(c,u*.9,v*z)s(17,u,y*z-5)z+=.1 s(38,x*z+10,y*z-2,2,1)z+=.1 s(46,x*z+14,y*z+1,2,1)
+
+-- player plane + kills
+s(p,x,y,6,3,i)s(240,-30,-41,g,1)flip()t+=1
+if(t&lt;999)goto a
+
+-- game over state
+::g::s(137+t%2*k,t%192-140,-n,7,1)flip()t+=1
+goto g
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+I wrote it all like this, in that form. It isn't compiled or converted from a more readable
+version.  In order to squeeze it as much as possible, I had to work with the final version 
+directly.
+
+# Motivation
+
+I made this because it was a fun challenge and the next natural point after Tweet Jam (140
+characters). As a professor, it was also a good educational example for my students of how
+parsers work, old-school arcade game design tricks for managing complexity in tight RAM
+budgets, and to create interest among them for PICO-8.
+
+I participate in little game jams on weekends with my children and
+friends. Optimizing code to minimize the number of characters is obviously not a good idea or
+useful skill in general programming.
+
+However, there _are_ a few reasons this kind of activity is actually productive and
+educational:
+
+1. My brain works the same when I'm working on any kind of problem. Playing a board game,
+   optimizing a AAA game shader for performance on PS4, working on scientific research, or
+   doing a silly activity like this--I find that they all keep me sharp and help expand
+   the set of patterns I can intuitively match. Maybe you've had a similar experience.
+
+2. Reverse-engineering classic game mechanics and graphics reveals a lot about how they were
+   designed. That increases my enjoyment and appreciation of them.
+
+3. Minimizing code size mostly minimizes complexity as well. I was surprised how much more
+   elegantly some game mechanics could be implemented when pressed, vs. the more brute-force
+   approach I would normally have taken. This now encourages me to seek more elegant solutions
+   in the future for normal game code...simplicity is always important because simple, concise
+   code is simpler to modify and debug.
+   
+4. Every now and then, 2.5D and sprite-based tricks crop up in modern 3D graphics. So, not
+   everything in here is fantastical. (I even used Quake I-style imperfect perspective
+   correction this very week in a high-end shader to amortize cost.)
+   
+5. Minimizing object code/microcode/circuit area can actually have a significant performance
+   impact when working at those low levels. Sometimes we create "slow" small code that is
+   actually fast because it requires fewer registers, enables instruction pairing, requires
+   less power, fits in the instruction cache, or enables more computation per die area than
+   something bigger which seems faster in a scalar context.
+   
+But really, this was just a fun exercise!
+
+
+# Techniques
+
+Some techniques that I used:
+
+- Functions are first-class objects in Lua, so commonly used ones can be bound to single-letter
+  variables to save characters
+- Because of the way it is implemented, the PICO-8 parser requires a space between a number and
+  'abcdefx' because they can appear in hex numbers. However, it does not require a space before 
+  other letters, so statements beginning with other letters can be directly jammed against
+  assignments that terminate in a number
+- Single-line `if` statements run to the next newline and can have any number of
+  space-separated statements in the consequent
+- Some common [tweetjam tricks](https://gist.github.com/kometbomb/7ab11b8383d3ac94cbfe1be5fb859785)
+- The sprite sheet and even sound effects are designed to allow different animations and
+  sequences to be computed as patterns, as well as using fewer digits (e.g., sprite 9 is
+  cheaper to access than sprite 10 in character cost)
+- I used dark blue instead of opaque black in many places to avoid the character cost of
+  `palt(0, false)`
+- Reduced the number of unique multi-digit constants, so that a few single-letter variables
+  could replace as many as possible
+- Directly managed the event and rendering loop to avoid function call overhead
+- Used sprite stretching for the 3D effects on both the planes and ground
+- Drew repeated sprites directly into the sheet to avoid a `for` loop on the stars
+- Used non-integer arguments to `spr` for the sprite size, which allows fractional sprites
+- use `1&lt;0` for `false` and `1&gt;0` for `true` (this was optimized out by the end)
+- use `a and b or c` for `if a then b else c end`
+
+<!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style><script src="markdeep.min.js" charset="utf-8"></script><script src="https://morgan3d.github.io/markdeep/latest/markdeep.min.js" charset="utf-8"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>

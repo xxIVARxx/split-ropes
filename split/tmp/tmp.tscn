@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0jn8n3po7elv"]
+
+[ext_resource type="Script" path="res://tmp/Path3D.gd" id="1_7p6es"]
+[ext_resource type="Script" path="res://tmp/MeshInstance3DCube.gd" id="2_oqqdy"]
+
+[sub_resource type="Curve3D" id="Curve3D_a8qbl"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ck7jk"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1.00001),
+"format": 34359742471,
+"index_count": 36,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0, 0, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 4, 0, 6, 0, 7, 0, 6, 0, 5, 0, 3, 0, 6, 0, 3, 0, 2, 0, 7, 0, 1, 0, 0, 0, 7, 0, 0, 0, 4, 0, 4, 0, 0, 0, 3, 0, 4, 0, 3, 0, 5, 0, 7, 0, 6, 0, 2, 0, 7, 0, 2, 0, 1, 0),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray(0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 63, 102, 102, 204, 76, 84, 213, 255, 191, 170, 170, 84, 85, 255, 255, 255, 223, 204, 204, 50, 51, 0, 0, 169, 234, 153, 25, 50, 51, 255, 63, 255, 191, 204, 76, 50, 179, 170, 170, 255, 191, 170, 42, 84, 213, 255, 63, 255, 191, 204, 204, 101, 230, 0, 0, 84, 213, 50, 179, 153, 153, 255, 255, 255, 223)
+}]
+
+[node name="Tmp" type="Node3D"]
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_a8qbl")
+script = ExtResource("1_7p6es")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("ArrayMesh_ck7jk")
+script = ExtResource("2_oqqdy")

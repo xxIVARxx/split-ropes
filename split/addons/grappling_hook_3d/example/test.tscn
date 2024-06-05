@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3 uid="uid://llgablqr8rej"]
+
+[ext_resource type="Script" path="res://addons/grappling_hook_3d/example/test.gd" id="1_rc74t"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2ip0h"]
+sky_top_color = Color(0, 0.482353, 0.992157, 1)
+sky_horizon_color = Color(0.510784, 0.632353, 0.760784, 1)
+ground_bottom_color = Color(0.0352941, 0.0352941, 0.0352941, 1)
+ground_horizon_color = Color(0.510784, 0.632353, 0.760784, 1)
+
+[sub_resource type="Sky" id="Sky_nbfya"]
+sky_material = SubResource("ProceduralSkyMaterial_2ip0h")
+
+[sub_resource type="Environment" id="Environment_kb545"]
+background_mode = 2
+sky = SubResource("Sky_nbfya")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_vsd0d"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2psi5"]
+size = Vector3(0.993652, 1, 1)
+
+[node name="Main" type="Node"]
+script = ExtResource("1_rc74t")
+
+[node name="Environment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_kb545")
+
+[node name="Sun" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 10, 0)
+shadow_enabled = true
+
+[node name="Platform0" type="CSGBox3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.5, 0)
+use_collision = true
+size = Vector3(10, 1, 10)
+
+[node name="from" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.52828, 1.62727, 0.463083)
+mesh = SubResource("BoxMesh_vsd0d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="from"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="from/StaticBody3D"]
+shape = SubResource("BoxShape3D_2psi5")
+
+[node name="to" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.47172, 1.62727, 0.463083)
+mesh = SubResource("BoxMesh_vsd0d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="to"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="to/StaticBody3D"]
+shape = SubResource("BoxShape3D_2psi5")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.966984, 0.254838, 0, -0.254838, 0.966984, 1, 4.62161, 5.16144)

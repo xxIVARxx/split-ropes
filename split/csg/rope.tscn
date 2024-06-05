@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgyk7j66r4sgp"]
+
+[ext_resource type="Script" path="res://csg/rope.gd" id="1_r2jp8"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rc51e"]
+
+[node name="Rope" type="CSGMesh3D"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+use_collision = true
+mesh = SubResource("CylinderMesh_rc51e")
+script = ExtResource("1_r2jp8")

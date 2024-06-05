@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://b01n8y8l2ccl"]
+
+[ext_resource type="Script" path="res://addons/rope3d/rope_segment.gd" id="1_inly5"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fcar0"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_n4b7t"]
+
+[node name="RopeSegment" type="Area3D"]
+transform = Transform3D(-1.09278e-08, 0, 0.25, 0, 0.25, 0, -0.25, 0, -1.09278e-08, 0, 0, 0)
+script = ExtResource("1_inly5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_fcar0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_n4b7t")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
